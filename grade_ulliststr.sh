@@ -1,14 +1,14 @@
-g++ ulliststr.cpp grade_ulliststr.cpp -o grade_ulliststr `pkg-config --cflags --libs gtest`
 TOTAL=35
+g++ ulliststr.cpp grade_ulliststr.cpp -o grade_ulliststr `pkg-config --cflags --libs gtest`
 retVal=$?
-    if [ $retVal -eq 0 ]
-    then
-        echo "grade_ulliststr compiled."
-    else
+if [ $retVal -eq 0 ]
+then
+    echo "grade_ulliststr compiled."
+else
 		echo "grade_ulliststr did not compile. Make sure your ulliststr.cpp compiles with your test code."
 		echo "AUTO:$TOTAL:P0:V0:0.0"
-		return -1
-    fi
+		exit -1
+fi
 PASSED=0
 FAILED=0
 FAILED_TESTS=""
@@ -32,7 +32,7 @@ VFAILED_TESTS=""
 for test in ListInsertBack.OneItemAdd ListInsertBack.ThreeItemAdd ListInsertBack.ARRSIZEPlusOne ListInsertBack.50RandomElements ListInsertBack.5x1000RandomElements ListInsertFront.OneItemAdd ListInsertFront.ThreeItemAdd ListInsertFront.ARRSIZEPlusOne ListInsertFront.50RandomElements ListInsertFront.5x1000RandomElements ListInsert.EmptyString ListInsert.FrontThenBack ListInsert.BackThenFront ListRemove.OneItemFront ListRemove.OneItemBack ListRemove.RepeatedOneEleRemoveBack ListRemove.RepeatedOneEleRemoveFront ListRemove.Head3Elements ListRemove.Tail3Elements ListRemove.AtARRSIZE ListRemove.AtARRSIZEPlusOne ListRemove.SongOfBackAndFront ListRemove.50ElementsFromBack ListRemove.50ElementsFromFront ListSet.OneItem ListSet.First ListSet.Last ListSet.Middle ListSet.50x50RandomElements UnrolledList.ConstructionDestruction UnrolledList.NoElements UnrolledList.Front_PushBack UnrolledList.Front_PushFront UnrolledList.Back_PushBack UnrolledList.Back_PushFront
 do
     echo $test
-    valgrind --tool=memcheck --leak-check=yes ./grade_ulliststr --gtest_filter=$test
+    valgrind valgrind --error-exitcode=2 --tool=memcheck --leak-check=yes ./grade_ulliststr --gtest_filter=$test
     retVal=$?
     if [ $retVal -eq 0 ]
     then
