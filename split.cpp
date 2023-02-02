@@ -13,11 +13,19 @@ the function below should be the only one in this file.
 #include "split.h"
 
 /* Add a prototype for a helper function here if you need */
+void realsplit(Node*& in, Node*& odds, Node*& evens);
 
 void split(Node*& in, Node*& odds, Node*& evens)
 {
   /* Add code here */
 // WRITE YOUR CODE HERE
+Node*& incopy = in;
+realsplit(in, odds, evens);
+incopy = nullptr;
+}
+
+/* If you needed a helper function, write it here */
+void realsplit(Node*& in, Node*& odds, Node*& evens) {
 if (in == nullptr) {
 	odds = nullptr;
 	evens = nullptr;
@@ -27,15 +35,12 @@ else {
 	if (in->value % 2 == 0) {
 		evens = in;
 		evens->value = in->value;
-		split (in->next, odds, evens->next);
+		realsplit (in->next, odds, evens->next);
 	}
 	else {
 		odds = in;
 		odds->value = in->value;
-		split (in->next, odds->next, evens);
+		realsplit (in->next, odds->next, evens);
 	}
 }
-
 }
-
-/* If you needed a helper function, write it here */
